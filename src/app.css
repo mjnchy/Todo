@@ -1,0 +1,111 @@
+:root {
+    --nav-font: #e0e0e0;
+    --nav-background: #b33737;
+    --background: #222222;
+    --sidebar-background: #313131;
+    --btn-size: clamp(20px, 1.2vw, 1.3rem);
+    --text-size: 1.2rem;
+    --hover-color: #444444;
+}
+
+* {
+    margin: 0;
+}
+
+body {
+    height: 100vh;
+    background-color: var(--background);
+    overflow: hidden;
+}
+
+ul {
+    list-style: none;
+}
+
+button {
+    background-color: transparent;
+    border: none;
+    font-size: var(--btn-size);
+}
+
+/*  */
+/* Top Nav-bar */
+/*  */
+
+.nav {
+    background-color: var(--nav-background);
+    height: 50px;
+}
+
+#navbar-main {
+    position: relative;
+    top: 10px;
+}
+
+#nav-main-list {
+    display: flex;
+    justify-content: space-between;
+    padding: 0;
+    width: calc(100% - 30px);
+    margin: auto;
+}
+
+#home-nav, #add-other {
+    display: flex;
+}
+
+.nav-main-btn {
+    color: var(--nav-font);
+    height: 30px;
+    margin: 0 10px;
+}
+
+.nav-main-btn:hover {
+    cursor: pointer;
+}
+
+/*  */
+/* Main Content */
+/*  */
+
+main {
+    display: flex;
+}
+
+#side-nav {
+    flex: 0 1 clamp(250px, 100%, 325px);
+    background-color: var(--sidebar-background);
+    height: 100vh;
+}
+
+#todo-main {
+    flex: 0 1 clamp(750px, 100%, 100%);
+    background-color: transparent;
+}
+
+/*  */
+/* Sidebar */
+/*  */
+
+#sidebar-list {
+    padding: 0;
+}
+
+.projects {
+    width: 100%;
+    margin: 6px 0;
+}
+
+.sidebar-btn {
+    width: calc(100% - 55px);
+    text-align: left;
+    color: var(--nav-font);
+    font-size: var(--text-size);
+    margin: 0 20px 0 35px;
+    padding: 4px 0 4px 5px;
+    border-radius: 8px;
+}
+
+.sidebar-btn:hover {
+    background-color: var(--hover-color);
+}

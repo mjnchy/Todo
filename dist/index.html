@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="wrapper">
+        <div class="nav">
+            <nav id="navbar-main">
+                <ul id="nav-main-list">
+                    <span id="home-nav">
+                        <li class="nav-main-item">
+                            <button class="nav-main-btn" id="sidebar-toggle">
+                                <i class="fa-solid fa-bars"></i>
+                            </button>
+                        </li>
+                        <li class="nav-main-item">
+                            <button class="nav-main-btn" id="home">
+                                <i class="fa-solid fa-house"></i>
+                            </button>
+                        </li>
+                    </span>
+                    <span id="add-other">
+                        <li class="nav-main-item">
+                            <button class="nav-main-btn" id="add-btn">
+                                <i class="fa-solid fa-plus"></i>
+                            </button>
+                        </li>
+                        <li class="nav-main-item">
+                            <button class="nav-main-btn"></button>
+                        </li>
+                        <li class="nav-main-item">
+                            <button class="nav-main-btn"></button>
+                        </li>
+                        <li class="nav-main-item">
+                            <button class="nav-main-btn"></button>
+                        </li>
+                        <li class="nav-main-item">
+                            <button class="nav-main-btn"></button>
+                        </li>
+                    </span>
+                </ul>
+            </nav>
+        </div>
+
+        <main id="content">
+            <nav id="side-nav">
+                <ul id="sidebar-list">
+                   <div id="global">
+                        <li class="projects">
+                            <button class="sidebar-btn" id="all">All</button>
+                        </li>
+                        <li class="projects">
+                            <button class="sidebar-btn" id="today">Today</button>
+                        </li>
+                        <li class="projects">
+                            <button class="sidebar-btn" id="favourites">Favourites</button>
+                        </li>
+                   </div>
+                </ul>
+            </nav>
+
+            <div id="todo-main">
+                <div id="todo-project-header">
+                    <h1 id="header"></h1>
+                </div>
+                <div id="todo-list"></div>
+            </div>
+        </main>
+    </div>
+
+    <script src="https://kit.fontawesome.com/25a7d4ef82.js" crossorigin="anonymous"></script>
+    <script src="main.js"></script>
+</body>
+</html>
