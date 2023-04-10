@@ -143,19 +143,19 @@ main {
 /*  */
 /* Form CSS */
 /*  */
-#form-container-hidden {
+#form-container[data-status = 'inactive'] {
     height: 0;
     opacity: 0;
     inset: 0 calc(50% - 300px);
 }
 
-#form-container-visible {
+#form-container[data-status = 'active'] {
     height: 250px;
     opacity: 1;
     inset: calc(25% - 125px) calc(50% - 300px);
 }
 
-.form-container {
+#form-container {
     position: absolute;
     width: clamp(500px, 50%, 700px);
     border-radius: 12px;
