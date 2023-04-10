@@ -1,13 +1,22 @@
+/*  */
+/* Varibales */
+/*  */
 :root {
     --nav-font: #e0e0e0;
-    --nav-background: #b33737;
+    --accent: #b33737;
     --background: #222222;
     --sidebar-background: #313131;
     --btn-size: clamp(20px, 1.2vw, 1.3rem);
     --text-size: 1.2rem;
     --hover-color: #444444;
+    --shadow: #000;
+    --disbaled: #c77272;
+    --accent-hover: #982f2f;
 }
 
+/*  */
+/* Global Element Styles */
+/*  */
 * {
     margin: 0;
 }
@@ -20,6 +29,7 @@ body {
 
 ul {
     list-style: none;
+    padding: 0;
 }
 
 button {
@@ -28,12 +38,38 @@ button {
     font-size: var(--btn-size);
 }
 
+button:hover {
+    cursor: pointer;
+}
+
+input {
+    color: var(--nav-font);
+    background-color: transparent;
+    border: none;
+    height: 40px;
+    padding: 0;
+    border-radius: 12px;
+}
+
+input:focus, input:active {
+    outline: none;
+}
+
+input:active::placeholder, input:focus::placeholder {
+    color: transparent;
+}
+
+input::placeholder {
+    color: var(--nav-font);
+    font-size: calc(var(--text-size) * 0.80);
+    font-weight: 100;
+}
+
 /*  */
 /* Top Nav-bar */
 /*  */
-
 .nav {
-    background-color: var(--nav-background);
+    background-color: var(--accent);
     height: 50px;
 }
 
@@ -45,7 +81,6 @@ button {
 #nav-main-list {
     display: flex;
     justify-content: space-between;
-    padding: 0;
     width: calc(100% - 30px);
     margin: auto;
 }
@@ -60,14 +95,9 @@ button {
     margin: 0 10px;
 }
 
-.nav-main-btn:hover {
-    cursor: pointer;
-}
-
 /*  */
 /* Main Content */
 /*  */
-
 main {
     display: flex;
 }
@@ -81,12 +111,12 @@ main {
 #todo-main {
     flex: 0 1 clamp(750px, 100%, 100%);
     background-color: transparent;
+    position: relative;
 }
 
 /*  */
 /* Sidebar */
 /*  */
-
 #sidebar-list {
     padding: 0;
 }
@@ -108,4 +138,88 @@ main {
 
 .sidebar-btn:hover {
     background-color: var(--hover-color);
+}
+
+/*  */
+/* Form CSS */
+/*  */
+#form-container {
+    position: absolute;
+    width: clamp(500px, 50%, 700px);
+    height: 250px;
+    inset: calc(25% - 125px) calc(50% - 300px);
+    border-radius: 12px;
+    background-color: var(--sidebar-background);
+    box-shadow: 0 0 14px 6px var(--shadow);
+}
+
+#form-header {
+    grid-column: span 3;
+    padding: 0;
+    height: 30px;
+    background-color: var(--accent);
+    border-radius: 12px 12px 0 0;
+}
+
+#todo-form {
+    width: calc(100% - 30px);
+    display: grid;
+    padding: 15px;
+    grid-template: repeat(1, 1fr)/ repeat(3, 1fr);
+}
+
+.todo-input {
+    width: 100%;
+}
+
+#title-input {
+    font-size: var(--text-size);
+    font-weight: 700;
+    height: 50px;
+    grid-column: span 3;
+    color: #fff;
+}
+
+#description-input {
+    grid-column: span 3;
+}
+
+#title-input::placeholder {
+    font-size: 1.4rem;
+    font-weight: 700;
+
+}
+
+#btn-container {
+    width: fit-content;
+    position: absolute;
+    inset: auto 10px 15px auto;
+}
+
+.form-btn {
+    background-color: var(--accent);
+    border-radius: 8px;
+    width: 100px;
+    height: 34px;
+    font-size: calc(var(--text-size) * 0.72);
+    font-weight: 700;
+    color: var(--nav-font);
+    margin: auto 5px;
+}
+
+#no-input {
+    background-color: var(--disbaled);
+    cursor: not-allowed;
+}
+
+#add-task:hover {background-color: var(--accent-hover);
+}
+
+#cancel-todo {
+    background-color: var(--background);
+    filter: brightness(0.9);
+}
+
+#cancel-todo:hover {
+    filter: brightness(1.2);
 }

@@ -8,8 +8,6 @@ function createTodo (title, description, dueDate, _projects, priority) {
     return todoList;
 };
 
-createTodo('title', 'description', 'dueDate', ['favourites', 'today']);
-
 function listProjects () {
     const allProjects = [];
     Object.keys(todoList).map(key => {
@@ -41,4 +39,8 @@ function addToProjects () {
     return projects;
 }
 
-console.log(addToProjects());
+export {
+    todoList,
+    projects,
+    createTodo
+};

@@ -68,9 +68,23 @@
                     <h1 id="header"></h1>
                 </div>
                 <div id="todo-list"></div>
+                <div id="form-container">
+                    <div id="form-header"></div>
+                    <form action="" id="todo-form" class="form">
+                        <input class="todo-input" type="text" id="title-input" name="title" placeholder="Task Title">
+                        <input class="todo-input" type="text" id="description-input" name="description" placeholder="Description">                
+                        <input class="todo-input" type="datetime" id="date-input" name="date" placeholder="Get it done by">
+                        <input class="todo-input" type="text" id="priority-input" name="priority" placeholder="Priority">
+                        <input class="todo-input" type="text" id="projects-input" name="projects" placeholder="Add this todo to an existing project">
+                    </form>
+                    <div id="btn-container">
+                        <button id="cancel-todo" class="form-btn">Cancel</button>
+                        <button id="add-task" class="form-btn">Add Task</button>
+                    </div>
+                </div>
             </div>
+        </div>
         </main>
-    </div>
 
     <script src="https://kit.fontawesome.com/25a7d4ef82.js" crossorigin="anonymous"></script>
     <script src="main.js"></script>
