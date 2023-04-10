@@ -10,36 +10,36 @@
     <div id="wrapper">
         <div class="nav">
             <nav id="navbar-main">
-                <ul id="nav-main-list">
+                <ul class="ul-default" id="nav-main-list">
                     <span id="home-nav">
                         <li class="nav-main-item">
-                            <button class="nav-main-btn" id="sidebar-toggle">
+                            <button class="button-default nav-main-btn" id="sidebar-toggle">
                                 <i class="fa-solid fa-bars"></i>
                             </button>
                         </li>
                         <li class="nav-main-item">
-                            <button class="nav-main-btn" id="home">
+                            <button class="button-default nav-main-btn" id="home">
                                 <i class="fa-solid fa-house"></i>
                             </button>
                         </li>
                     </span>
                     <span id="add-other">
                         <li class="nav-main-item">
-                            <button class="nav-main-btn" id="add-btn">
+                            <button class="button-default nav-main-btn" id="add-btn">
                                 <i class="fa-solid fa-plus"></i>
                             </button>
                         </li>
                         <li class="nav-main-item">
-                            <button class="nav-main-btn"></button>
+                            <button class="button-default nav-main-btn"></button>
                         </li>
                         <li class="nav-main-item">
-                            <button class="nav-main-btn"></button>
+                            <button class="button-default nav-main-btn"></button>
                         </li>
                         <li class="nav-main-item">
-                            <button class="nav-main-btn"></button>
+                            <button class="button-default nav-main-btn"></button>
                         </li>
                         <li class="nav-main-item">
-                            <button class="nav-main-btn"></button>
+                            <button class="button-default nav-main-btn"></button>
                         </li>
                     </span>
                 </ul>
@@ -48,16 +48,16 @@
 
         <main id="content">
             <nav id="side-nav">
-                <ul id="sidebar-list">
+                <ul class="ul-default" id="sidebar-list">
                    <div id="global">
                         <li class="projects">
-                            <button class="sidebar-btn" id="all">All</button>
+                            <button class="button-default sidebar-btn" id="all">All</button>
                         </li>
                         <li class="projects">
-                            <button class="sidebar-btn" id="today">Today</button>
+                            <button class="button-default sidebar-btn" id="today">Today</button>
                         </li>
                         <li class="projects">
-                            <button class="sidebar-btn" id="favourites">Favourites</button>
+                            <button class="button-default sidebar-btn" id="favourites">Favourites</button>
                         </li>
                    </div>
                 </ul>
@@ -68,19 +68,19 @@
                     <h1 id="header"></h1>
                 </div>
                 <div id="todo-list"></div>
-                <div id="form-container">
+                <div class="form-container" id="form-container-visible">
                     <div id="form-header"></div>
                     <form action="" id="todo-form" class="form">
-                        <input class="todo-input" type="text" id="title-input" name="title" placeholder="Task Title">
-                        <input class="todo-input" type="text" id="description-input" name="description" placeholder="Description">                
-                        <input class="todo-input" type="datetime" id="date-input" name="date" placeholder="Get it done by">
-                        <input class="todo-input" type="text" id="priority-input" name="priority" placeholder="Priority">
-                        <input class="todo-input" type="text" id="projects-input" name="projects" placeholder="Add this todo to an existing project">
+                        <input class="input-default todo-input" type="text" id="title-input" name="title" placeholder="Task Title">
+                        <input class="input-default todo-input" type="text" id="description-input" name="description" placeholder="Description">                
+                        <input class="input-default todo-input" type="datetime" id="date-input" name="date" placeholder="Get it done by">
+                        <input class="input-default todo-input" type="text" id="priority-input" name="priority" placeholder="Priority">
+                        <input class="input-default todo-input" type="text" id="projects-input" name="projects" placeholder="Add this todo to an existing project">
+                        <div id="btn-container">
+                            <button id="cancel-todo" class="button-default form-btn">Cancel</button>
+                            <button id="add-task" class="button-default form-btn">Add Task</button>
+                        </div>
                     </form>
-                    <div id="btn-container">
-                        <button id="cancel-todo" class="form-btn">Cancel</button>
-                        <button id="add-task" class="form-btn">Add Task</button>
-                    </div>
                 </div>
             </div>
         </div>

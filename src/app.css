@@ -27,22 +27,22 @@ body {
     overflow: hidden;
 }
 
-ul {
+.ul-default {
     list-style: none;
     padding: 0;
 }
 
-button {
+.button-default {
     background-color: transparent;
     border: none;
     font-size: var(--btn-size);
 }
 
-button:hover {
+.button-default:hover {
     cursor: pointer;
 }
 
-input {
+.input-default {
     color: var(--nav-font);
     background-color: transparent;
     border: none;
@@ -51,15 +51,15 @@ input {
     border-radius: 12px;
 }
 
-input:focus, input:active {
+.input-default:focus, .input-default:active {
     outline: none;
 }
 
-input:active::placeholder, input:focus::placeholder {
+.input-default:active::placeholder, .input-default:focus::placeholder {
     color: transparent;
 }
 
-input::placeholder {
+.input-default::placeholder {
     color: var(--nav-font);
     font-size: calc(var(--text-size) * 0.80);
     font-weight: 100;
@@ -143,14 +143,26 @@ main {
 /*  */
 /* Form CSS */
 /*  */
-#form-container {
-    position: absolute;
+#form-container-hidden {
+    width: 0;
+    height: 0;
+    opacity: 0;
+    inset: 0 50%;
+}
+
+#form-container-visible {
     width: clamp(500px, 50%, 700px);
     height: 250px;
+    opacity: 1;
     inset: calc(25% - 125px) calc(50% - 300px);
+}
+
+.form-container {
+    position: absolute;
     border-radius: 12px;
     background-color: var(--sidebar-background);
     box-shadow: 0 0 14px 6px var(--shadow);
+    transition: ease-in, 150ms;
 }
 
 #form-header {
