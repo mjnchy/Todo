@@ -144,14 +144,12 @@ main {
 /* Form CSS */
 /*  */
 #form-container-hidden {
-    width: 0;
     height: 0;
     opacity: 0;
-    inset: 0 50%;
+    inset: 0 calc(50% - 300px);
 }
 
 #form-container-visible {
-    width: clamp(500px, 50%, 700px);
     height: 250px;
     opacity: 1;
     inset: calc(25% - 125px) calc(50% - 300px);
@@ -159,10 +157,11 @@ main {
 
 .form-container {
     position: absolute;
+    width: clamp(500px, 50%, 700px);
     border-radius: 12px;
     background-color: var(--sidebar-background);
     box-shadow: 0 0 14px 6px var(--shadow);
-    transition: ease-in, 150ms;
+    transition: ease-in-out, 100ms;
 }
 
 #form-header {
@@ -200,6 +199,12 @@ main {
     font-size: 1.4rem;
     font-weight: 700;
 
+}
+
+#form-further {
+    grid-column: span 3;
+    display: flex;
+    align-items: start;
 }
 
 #btn-container {
