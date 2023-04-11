@@ -146,13 +146,28 @@ main {
 #form-container[data-status = 'inactive'] {
     height: 0;
     opacity: 0;
-    inset: 0 calc(50% - 300px);
+    inset: -500px calc(50% - 300px);
 }
 
 #form-container[data-status = 'active'] {
     height: 250px;
     opacity: 1;
     inset: calc(25% - 125px) calc(50% - 300px);
+    z-index: 2;
+}
+
+#midlay {
+    height: 0;
+    width: 0;
+    inset: 0;
+}
+
+#midlay[data-status = 'active'] {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    background-color: transparent;
+    z-index: 1;
 }
 
 #form-container {
