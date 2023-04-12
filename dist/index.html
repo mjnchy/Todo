@@ -67,20 +67,22 @@
                 <div id="todo-project-header">
                     <h1 id="header"></h1>
                 </div>
-                <div id="todo-list"></div>
-                <div id="form-container" data-status="inactive">
+                <div id="todo-list-container">
+                    <ul id="todo-list" class="ul-default"></ul>
+                </div>
+                <div id="form-container" data-status="active">
                     <div id="form-header"></div>
                     <form action="" id="todo-form" class="form">
                         <input class="input-default todo-input" type="text" id="title-input" name="title" placeholder="Task Title">
                         <input class="input-default todo-input" type="text" id="description-input" name="description" placeholder="Description">                
-                        <div id="form-further">
-                            <input class="input-default todo-input" type="datetime" id="date-input" name="date" placeholder="Get it done by">
+                        <div id="todo-other-details">
+                            <input class="input-default todo-input" type="date" id="date-input" name="date" placeholder="Get it done by">
                             <input class="input-default todo-input" type="text" id="priority-input" name="priority" placeholder="Priority">
                             <input class="input-default todo-input" type="text" id="projects-input" name="projects" placeholder="Add this todo to an existing project">
                         </div>
                         <div id="btn-container">
                             <button id="cancel-todo" class="button-default form-btn">Cancel</button>
-                            <button id="add-task" class="button-default form-btn">Add Task</button>
+                            <button action="submit" id="add-task" class="button-default form-btn">Add Task</button>
                         </div>
                     </form>
                 </div>

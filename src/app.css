@@ -19,6 +19,7 @@
 /*  */
 * {
     margin: 0;
+    color: var(--nav-font);
 }
 
 body {
@@ -43,7 +44,6 @@ body {
 }
 
 .input-default {
-    color: var(--nav-font);
     background-color: transparent;
     border: none;
     height: 40px;
@@ -60,7 +60,6 @@ body {
 }
 
 .input-default::placeholder {
-    color: var(--nav-font);
     font-size: calc(var(--text-size) * 0.80);
     font-weight: 100;
 }
@@ -90,7 +89,6 @@ body {
 }
 
 .nav-main-btn {
-    color: var(--nav-font);
     height: 30px;
     margin: 0 10px;
 }
@@ -129,7 +127,6 @@ main {
 .sidebar-btn {
     width: calc(100% - 55px);
     text-align: left;
-    color: var(--nav-font);
     font-size: var(--text-size);
     margin: 0 20px 0 35px;
     padding: 4px 0 4px 5px;
@@ -216,7 +213,7 @@ main {
 
 }
 
-#form-further {
+#todo-other-details {
     grid-column: span 3;
     display: flex;
     align-items: start;
@@ -235,7 +232,6 @@ main {
     height: 34px;
     font-size: calc(var(--text-size) * 0.72);
     font-weight: 700;
-    color: var(--nav-font);
     margin: auto 5px;
 }
 

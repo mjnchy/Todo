@@ -1,71 +1,83 @@
-import {createTodo} from"./todo.js";
+import { createTodo } from "./todo.js";
 
-function createTask (x) {
-    const li = document.createElement('li');
-    li.classList.add('task');
-    li.id = `${x}`;
+function makeTask () {
+    const taskList = document.querySelector('#todo-list');
 
-    return li;
-};
+    function taskElements(taskName) {
+        const div = document.createElement('div');
+        div.classList.add('task-div');
+        div.id = `${taskName}-div`;
 
-function createTaskHeader (parent, header) {
-    const taskHeader = document.createElement('h2');
-    taskHeader.classList.add('task-header');
-    taskHeader.id = `${header}-header`;
-    taskHeader.textContent = header;
-        
-    parent.append(taskHeader);
-    return parent;
-};
+        const li = document.createElement('li');
+        li.classList.add('task-li');
+        li.id = `${taskName}-li`;
 
-function createTaskContent (parent, content) {
-    const taskContent = document.createElement('p');
-    taskContent.classList.add('task-content');
-    taskContent.id = `${content}-content`;
-    taskContent.textContent = content;
+        const header = document.createElement('h3');
+        header.classList.add('task-header');
+        header.id = `${taskName}-header`;
 
-    parent.append(taskContent);
-    return parent;
-};
+        const content = document.createElement('p');
+        content.classList.add('task-content');
+        content.id = `${taskName}-content`;
 
-function makeTask (title, des, date, projects) {
-    const details = createTodo(title, des, date, projects);
-    const li = createTask(title);
+        return {
+            div, li, header, content
+        };
+    };
 
-    const task = details.todoList[title]
-    createTaskHeader(li, task.title);
-    createTaskContent(li, task.description);
+    function addTaskContent (name, description) {
+        const contentElements = taskElements(name);
 
-    console.log(details.todoList, details.projects);
+        contentElements.header.textContent = name;
+        contentElements.content.textContent = description;
+
+        return contentElements;
+    };
+
+    function createTask (title, des, due, projects) {
+        const taskObject = createTodo(title, des, due, projects);
+        const task = taskObject.todoList[title];
+
+        const elements = addTaskContent(task.title, task.description);
+
+        elements.li.append(elements.header, elements.content);
+        elements.div.append(elements.li);
+
+        taskList.append(elements.div);
+    };
 
     return {
-        details, li
+        taskList,
+        createTask
     };
 };
 
-function appendTask (title, des, date, projects) {
-    const taskContainer = document.querySelector('#todo-list');
-
-    const div = document.createElement('div');
-    div.classList.add('task-div');
-    div.id = `${title}-div`;
-
-    div.append(makeTask(title, des, date, projects).li);
-    taskContainer.append(div);
-};
-
-
-function makeTodo () {
+function addTask () {
     const form = document.querySelector('#todo-form');
 
-    form.addEventListener('submit', (e) => {
-        e.preventDefault();
+    function fetch_From_Form () {
         const title = form.children.title.value;
         const des = form.children.description.value;
 
-        appendTask(title, des, 'due', ['all']);
-        form.reset();
+        // const otherDetails = form.children['todo-other-details'];
+        // const date = otherDetails.date.value;
+        // const projects = otherDetails.projects.value;
+        // // const priority = otherDetails.priority.value;
+
+        return {
+            title, des, date, projects, priority
+        };
+    };
+
+    form.addEventListener('submit', (e) => {
+        e.preventDefault();
+
+        const fetched = fetch_From_Form();
+
+        console.log(
+            makeTask().createTask(fetched.title, fetched.des, fetched.date, fetched.projects, fetched.priority)
+            );
     });
 };
 
-makeTodo();
+addTask();
