@@ -6,7 +6,9 @@ function createTodo (title, description, dueDate, _projects, priority) {
         title, description, dueDate, _projects
     };
 
-    sortProjects();
+    if (dueDate === undefined || _projects === undefined || priority === undefined) null
+    else sortProjects();
+
     return {
         todoList,
         projects

@@ -4,13 +4,13 @@ function makeTask () {
     const taskList = document.querySelector('#todo-list');
 
     function taskElements(taskName) {
-        const div = document.createElement('div');
-        div.classList.add('task-div');
-        div.id = `${taskName}-div`;
-
         const li = document.createElement('li');
         li.classList.add('task-li');
         li.id = `${taskName}-li`;
+        
+        const div = document.createElement('div');
+        div.classList.add('task-div');
+        div.id = `${taskName}-div`;
 
         const header = document.createElement('h3');
         header.classList.add('task-header');
@@ -40,10 +40,10 @@ function makeTask () {
 
         const elements = addTaskContent(task.title, task.description);
 
-        elements.li.append(elements.header, elements.content);
-        elements.div.append(elements.li);
+        elements.div.append(elements.header, elements.content);
+        elements.li.append(elements.div);
 
-        taskList.append(elements.div);
+        taskList.append(elements.li);
     };
 
     return {
@@ -54,15 +54,14 @@ function makeTask () {
 
 function addTask () {
     const form = document.querySelector('#todo-form');
+    const otherDetails = form.children['todo-other-details'].children;
 
     function fetch_From_Form () {
         const title = form.children.title.value;
         const des = form.children.description.value;
-
-        // const otherDetails = form.children['todo-other-details'];
-        // const date = otherDetails.date.value;
-        // const projects = otherDetails.projects.value;
-        // // const priority = otherDetails.priority.value;
+        const date = otherDetails.date.value;
+        const projects = otherDetails.projects.value;
+        const priority = otherDetails.priority.value;
 
         return {
             title, des, date, projects, priority
@@ -71,12 +70,9 @@ function addTask () {
 
     form.addEventListener('submit', (e) => {
         e.preventDefault();
-
         const fetched = fetch_From_Form();
-
-        console.log(
-            makeTask().createTask(fetched.title, fetched.des, fetched.date, fetched.projects, fetched.priority)
-            );
+        makeTask().createTask(fetched.title, fetched.des, fetched.date, fetched.projects, fetched.priority);
+        form.reset();
     });
 };
 
