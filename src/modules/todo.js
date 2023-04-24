@@ -1,51 +1,40 @@
 const todoList = {};
 const projects = {};
 
-function createTodo (title, description, dueDate, _projects, priority) {
-    todoList[title.replace(' ', '')] = {
-        title, description, dueDate, _projects
-    };
-
-    if (dueDate === undefined || _projects === undefined || priority === undefined) null
-    else sortProjects();
-
-    return {
-        todoList,
-        projects
+function taskMaker (title, description, due, _projects) {
+    const parsed = title.replaceAll(' ', '');
+    let error;
+    if (parsed === '') return error = 'Invalid task. Task must contain at least some character.'
+    else if (todoList.hasOwnProperty(parsed)) {
+        return error = 'Task already exists, please pass a new task';
+    }
+    else {
+        todoList[parsed] = {
+            title, description, due, _projects
+        };
+        sortProjects(parsed);
+        return todoList[parsed];
     };
 };
 
-function sortProjects () {
-    function listProjects () {
-        const allProjects = [];
-        Object.keys(todoList).map(key => {
-            todoList[key]._projects.map(_project => {
-                allProjects.push(_project);
-            });
-        });
-        return allProjects;
-    };
-    
-    function reduceProjects () {
-        const filteredProjects = [...new Set(listProjects())];
-        filteredProjects.forEach(project => {
-            projects[project] = {};
-        });
-        return filteredProjects;
-    };
-    
-    function addToProjects () {
-        reduceProjects();
-        Object.keys(todoList).map(key => {
-            todoList[key]._projects.map(_project => {
-                projects[_project][key] = todoList[key];
-            });
-        });
-        return projects;
-    };
-    addToProjects();
+function taskDeleter (task) {
+    delete(todoList[task]);
+    return todoList;
+};
+
+function sortProjects (task) {
+    todoList[task]._projects.unshift('all');
+    todoList[task]._projects.forEach(_project => {
+        if (!projects.hasOwnProperty(_project)) {
+            projects[_project] = {};
+            projects[_project][task] = todoList[task];
+        }
+        else projects[_project][task] = todoList[task];
+    });
+    return projects;
 };
 
 export {
-    createTodo
-};
+    taskMaker,
+    taskDeleter,
+}

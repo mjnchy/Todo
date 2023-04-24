@@ -6,13 +6,16 @@
     --accent: #b33737;
     --background: #222222;
     --sidebar-background: #313131;
-    --btn-size: clamp(20px, 1.2vw, 1.3rem);
+    --font-size-btn: clamp(20px, 1.2vw, 1.3rem);
     --text-size: 1.2rem;
     --hover-color: #444444;
     --shadow: #000;
     --disbaled: #c77272;
     --accent-hover: #982f2f;
     --transition-time: 100ms;
+    --font-size-header1: 1.3rem;
+    --font-size-task-item: 1.1rem;
+    --btn-hover-background: #afafaf36;
 }
 
 /*  */
@@ -37,11 +40,13 @@ body {
 .button-default {
     background-color: transparent;
     border: none;
-    font-size: var(--btn-size);
+    font-size: var(--font-size-btn);
 }
 
 .button-default:hover {
     cursor: pointer;
+    border-radius: 8px;
+    background-color: var(--btn-hover-background);
 }
 
 .input-default {
@@ -102,7 +107,7 @@ main {
 }
 
 #side-nav {
-    width: clamp(250px, 25%, 300px);
+    width: 250px;
     height: 100vh;
     position: absolute;
     left: 0;
@@ -127,8 +132,8 @@ main {
 }
 
 #side-nav[data-active = "true"] ~ #todo-main {
-    width: clamp(calc(100% - 250px), 75%, calc(100% - 300px));
-    margin: 0 0 0 clamp(250px, 25%, 300px);
+    width: calc(100% - 250px);
+    margin: 0 0 0 250px;
 }
 
 /*  */
@@ -143,7 +148,7 @@ main {
     margin: 6px 0;
 }
 
-.sidebar-btn {
+.project-btn {
     width: calc(100% - 55px);
     text-align: left;
     font-size: var(--text-size);
@@ -152,9 +157,63 @@ main {
     border-radius: 8px;
 }
 
-.sidebar-btn:hover {
+.project-btn[data-active="true"] {
     background-color: var(--hover-color);
 }
+
+.project-btn:hover {
+    background-color: var(--hover-color);
+}
+
+/*  */
+/* Todo Main */
+/*  */
+#task-project-header {
+    padding: 25px 0 0 25px;
+    margin-bottom: 40px;
+}
+
+#header {
+    font-size: var(--font-size-header1);
+}
+
+#task-list-container {
+    margin: 10px 10px 10px 25px;
+}
+
+.task-li {
+    margin: 25px auto;
+}
+
+.task-li:first-child {
+    margin-top: 0;
+}
+
+.task-header {
+    font-size: var(--font-size-task-item);
+}
+
+.task-description {
+    font-size: calc(var(--font-size-task-item) * 0.80);
+}
+
+/*  */
+/* Task List CSS */
+/*  */
+.task-div {
+    display: flex;
+    align-items: center;
+    margin-right: 10px;
+}
+
+.task-content-span {
+    margin-left: 25px;
+}
+
+.task-options-span {
+    margin-left: auto;
+}
+
 
 /*  */
 /* Form CSS */
@@ -271,9 +330,22 @@ main {
     filter: brightness(1.2);
 }
 
-/*  */
-/* Task List CSS */
-/*  */
-.task-li {
-    padding: 10px;
+.project-selection-dropdown-btn {
+    font-size: calc(var(--text-size) * 0.9);
+}
+
+.project-selection-dropdown-btn * {
+    margin: auto 3px;
+    display: inline;
+}
+
+#project-dropdown-menu-container[data-active="true"] {
+    width: clamp(200px, 35%, 500px);
+    height: 200px;
+    position: absolute;
+    inset: calc(25% + 40px) calc(50% - 300px);
+    z-index: 2;
+    border-radius: 8px;
+    box-shadow:  0 0 10px 2px var(--shadow);
+    background-color: var(--sidebar-background);
 }
