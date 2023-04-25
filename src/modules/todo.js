@@ -35,6 +35,7 @@ function sortProjects (task) {
 };
 
 export {
+    projects,
     taskMaker,
     taskDeleter,
 }

@@ -1,77 +1,32 @@
-import { taskMaker, taskDeleter } from "./todo.js";
+import { taskMaker, taskDeleter, projects } from "./todo.js";
+import { createElem, } from "./elements.js";
 
 function selector () {
     return {
         taskList: document.querySelector('#todo-list'),
         form: document.querySelector('#todo-form'),
-        otherDetails: document.querySelector('#todo-form').children['todo-other-details'].children
+        otherDetails: document.querySelector('#todo-form').children['todo-other-details'].children,
+        projectDiv: document.querySelector('#project-dropdown-menu-container')
     };
 };
 
 const DOM = selector();
 
-function createLI (taskName) {
-    const li = document.createElement('li');
-    li.classList.add('task-li');
-    li.id = `${taskName}-li`;
-
-    return li;
-};
-
-function createDiv (taskName) {
-    const div = document.createElement('div');
-    div.classList.add('task-div');
-    div.id = `${taskName}-div`;
-
-    return div;
-};
-
-function createSpan (className) {
-    const span = document.createElement('span');
-    span.classList.add(`task-${className}-span`);
-
-    return span;
-};
-
-function createHeader (taskName) {
-    const header = document.createElement('h3');
-    header.classList.add('task-header');
-    header.id = `${taskName}-header`;
-
-    return header;
-};
-
-function createDescription (taskName) {
-    const description = document.createElement('p');
-    description.classList.add('task-description');
-    description.id = `${taskName}-description`;
-
-    return description;
-};
-
-function createBtn (btnClasses, btnName, btnType) {
-    const btn = document.createElement('button');
-    btn.classList.add(`more-options`, 'button-default', btnType, ...btnClasses);
-    btn.id = `${btnName}-${btnType}`;
-
-    return btn;
-};
-
 function createTaskElements(taskName) {
     return {
-        li: createLI(taskName),
-        div: createDiv(taskName),
-        completeSpan: createSpan('complete'),
-        contentSpan: createSpan('content'),
-        optionsSpan: createSpan('options'),
-        header: createHeader(taskName),
-        description: createDescription(taskName),
+        li: createElem('li', `${taskName}-li`, ['task-li']),
+        div: createElem('div', `${taskName}-div`, ['task-div']),
+        completeSpan: createElem('span', `${taskName}-complete-span`, ['task-complete-span']),
+        contentSpan: createElem('span', `${taskName}-content-span`, ['task-content-span']),
+        optionsSpan: createElem('span', `${taskName}-options-span`, ['task-options-span']),
+        header: createElem('h3', `${taskName}-header`, ['task-header']),
+        description: createElem('p', `${taskName}-description`, ['task-description']),
         optionsBtn: [
-            createBtn(['fa-solid', 'fa-pen'], taskName, 'editor'),
-            createBtn(['fa-solid', 'fa-trash'], taskName, 'remover'),
-        ]
+            createElem('button', `${taskName}-edit-btn`, ['button-default', 'more-options', 'fa-solid',  'fa-pen', 'editor']),
+            createElem('button', `${taskName}-remove-btn`, ['button-default', 'more-options', 'fa-solid', 'fa-trash', 'remover'])
+        ],
     };
-};
+}
 
 function makeTask (title, des, due, projects) {
     const task = taskMaker(title, des, due, projects);
