@@ -1,16 +1,32 @@
 import "../app.css";
-import { DOM, fetch_From_Form, makeTask, removeTask } from "./DOMStuff.js";
+import { DOM, fetch_From_Form, makeProjects, makeTask, removeTask, setHeader } from "./DOMStuff.js";
 
-const eventElements = function () {
-    return {
-        form: document.querySelector('#todo-form')
-    }
-}();
+const eventElements = {
+    navMain: {
+        sidebarToggler: document.querySelector('#sidebar-toggle'),
+        home: document.querySelector('#home'),
+        addBtn: document.querySelector('#add-btn'),
+        
+    },
+    sideNav: {
+        navbar: document.querySelector('#side-nav'),
+        lis: document.querySelectorAll('.projects'),
+        btns: document.querySelectorAll('.project-btn'),
+    },
+    form: {
+        container: document.querySelector('#form-container'),
+        addBtn: document.querySelector('#add-btn'),
+        cancelBtn: document.querySelector('#cancel-todo'),
+        projectSelector: document.querySelector('#project-selection'),
+        projects: document.querySelector('#project-dropdown-menu-container')
+    },
+    midlay: document.querySelector('#midlay'),
+};
 
-function setHeader () {
-    const header = document.querySelector('#header');
-    const panel = document.querySelector('.project-btn[data-active="true"]');
-    header.textContent = panel.textContent;
+function toggle (element, element2) {
+    element.dataset.active = element.dataset.active === 'false'? 'true': 'false';
+    if (element2 === undefined) null
+    else element2.dataset.active = element.dataset.active;
 };
 
 window.onload = function () {
@@ -18,40 +34,25 @@ window.onload = function () {
 };
 
 window.addEventListener('click', (e) => {
-    const formContainer = document.querySelector('#form-container');
-    const midlay = document.querySelector('#midlay');
-    const sideNav = document.querySelector('#side-nav');
-
-    if (e.target.id === 'add-btn' || e.target.classList.contains('fa-plus')) {
-        formContainer.dataset.status = 'active'
-        midlay.dataset.status = 'active';
+    switch (e.target) {
+        case eventElements.navMain.sidebarToggler:
+            toggle(eventElements.sideNav.navbar);
+            break;
+        case eventElements.navMain.addBtn:
+            toggle(eventElements.form.container, eventElements.midlay);
+            break;
+        case eventElements.midlay:
+            eventElements.form.projects.dataset.active === 'true'?
+            toggle(eventElements.form.projects):
+            toggle(eventElements.midlay, eventElements.form.container);
+            eventElements.midlay.style.zIndex = eventElements.form.projects.dataset.active === 'false'? 1: 2;
+            break;
+        case eventElements.form.cancelBtn:
+            toggle(eventElements.form.container, eventElements.midlay)
+            break;
+        case eventElements.form.projectSelector:
+            toggle(eventElements.form.projects);
+            eventElements.midlay.style.zIndex = eventElements.form.projects.dataset.active === 'true'? 2: 1;
+            break;
     };
-
-    if (e.target.id === 'midlay') {
-        formContainer.dataset.status = 'inactive';
-        midlay.dataset.status = 'inactive';
-    };
-
-    if (e.target.id === 'sidebar-toggle' || e.target.classList.contains('fa-bars')) {
-        sideNav.dataset.active = sideNav.dataset.active === 'true'? 'false': 'true';
-    };
-
-    if (e.target.classList.contains('remover')) {
-        const item = e.target.parentElement.parentElement.children[1].children[0].textContent;
-        removeTask(item);
-    };
-
-    if (e.target.classList.contains('project-btn')) {
-        const btns = document.querySelectorAll('.project-btn');
-        btns.forEach(btn => btn.dataset.active = 'false');
-        e.target.dataset.active = 'true';
-        setHeader();
-    }
-});
-
-DOM.form.addEventListener('submit', (e) => {
-    e.preventDefault();
-    const input = fetch_From_Form();
-    makeTask(input.title, input.des, input.date, [...input.projects]);
-    DOM.form.reset();
 });

@@ -70,6 +70,10 @@ body {
     font-weight: 100;
 }
 
+.nonclickable {
+    pointer-events: none;
+}
+
 /*  */
 /* Top Nav-bar */
 /*  */
@@ -227,13 +231,13 @@ main {
     transition: ease-in-out, var(--transition-time);
 }
 
-#form-container[data-status = 'inactive'] {
+#form-container[data-active='false'] {
     height: 0;
     opacity: 0;
     inset: -500px calc(50% - 300px);
 }
 
-#form-container[data-status = 'active'] {
+#form-container[data-active='true'] {
     height: 250px;
     opacity: 1;
     inset: calc(25% - 125px) calc(50% - 300px);
@@ -246,7 +250,7 @@ main {
     inset: 0;
 }
 
-#midlay[data-status = 'active'] {
+#midlay[data-active='true'] {
     position: absolute;
     height: 100%;
     width: 100%;
@@ -344,7 +348,7 @@ main {
     height: 200px;
     position: absolute;
     inset: calc(25% + 40px) calc(50% - 300px);
-    z-index: 2;
+    z-index: 3;
     border-radius: 8px;
     box-shadow:  0 0 10px 2px var(--shadow);
     background-color: var(--sidebar-background);

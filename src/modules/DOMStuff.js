@@ -12,6 +12,13 @@ function selector () {
 
 const DOM = selector();
 
+
+function setHeader () {
+    const header = document.querySelector('#header');
+    const panel = document.querySelector('.project-btn[data-active="true"]');
+    header.dataset.value = header.textContent = panel.textContent;
+};
+
 function createTaskElements(taskName) {
     return {
         li: createElem('li', `${taskName}-li`, ['task-li']),
@@ -26,7 +33,7 @@ function createTaskElements(taskName) {
             createElem('button', `${taskName}-remove-btn`, ['button-default', 'more-options', 'fa-solid', 'fa-trash', 'remover'])
         ],
     };
-}
+};
 
 function makeTask (title, des, due, projects) {
     const task = taskMaker(title, des, due, projects);
@@ -65,6 +72,36 @@ function fetch_From_Form () {
     };
 };
 
+function projectDivElems (num) {
+    return {
+        div: createElem('div', 'project-container', ['project-container'], 1),
+        ul: createElem('ul', 'project-ul', ['project-ul', 'ul-default'], 1),
+        li: createElem('li', undefined, ['dropdown-project-li'], num),
+        btn: createElem('button', undefined, ['dropdown-project-btn', 'button-default'], num)
+    };
+};
+
+function makeProjects () {
+    const projectList = Object.keys(projects);
+    const elements = projectDivElems(projectList.length);
+    
+    elements.btn.forEach(btn => {
+        const _projectName = projectList[elements.btn.indexOf(btn)];
+        btn.id = `dropdown-${_projectName}-btn`;
+        btn.textContent = `${_projectName.charAt(0).toUpperCase()}` + `${_projectName.slice(1)}`;
+        elements.li[elements.btn.indexOf(btn)].append(btn)
+    });
+
+    elements.li.forEach(li => {
+        const _projectName = projectList[elements.li.indexOf(li)];
+        li.id = `dropdown-${_projectName}-li`;
+        elements.ul.append(li);
+    });
+
+    elements.div.append(elements.ul);
+    DOM.projectDiv.append(elements.div);
+};
+
 export {
-    DOM, makeTask, removeTask, fetch_From_Form
-}
+    DOM, setHeader, makeTask, removeTask, fetch_From_Form, makeProjects
+};

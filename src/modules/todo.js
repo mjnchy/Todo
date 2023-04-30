@@ -1,41 +1,57 @@
-const todoList = {};
-const projects = {};
+const projects = {
+    all: {},
+    today: {},
+    favourites: {}
+};
+const taskList = projects.all;
 
-function taskMaker (title, description, due, _projects) {
+function taskMaker (title, description, due, _projects = []) {
     const parsed = title.replaceAll(' ', '');
     let error;
-    if (parsed === '') return error = 'Invalid task. Task must contain at least some character.'
-    else if (todoList.hasOwnProperty(parsed)) {
-        return error = 'Task already exists, please pass a new task';
-    }
-    else {
-        todoList[parsed] = {
+
+    if (parsed !== '' && !taskList.hasOwnProperty(parsed)) {
+        taskList[parsed] = {
             title, description, due, _projects
         };
+
+        taskList[parsed]._projects.unshift('all');
         sortProjects(parsed);
-        return todoList[parsed];
-    };
+
+        return taskList[parsed];
+    }
+
+    else if (parsed === '') return error = `Invalid task. Task must have a name`
+    else return `Task already exists. Please enter a new valid task`
 };
 
-function taskDeleter (task) {
-    delete(todoList[task]);
-    return todoList;
-};
-
-function sortProjects (task) {
-    todoList[task]._projects.unshift('all');
-    todoList[task]._projects.forEach(_project => {
-        if (!projects.hasOwnProperty(_project)) {
-            projects[_project] = {};
-            projects[_project][task] = todoList[task];
-        }
-        else projects[_project][task] = todoList[task];
+function taskDeleter (taskName) {
+    const task = taskName.replaceAll(' ', '');
+    
+    taskList[task]._projects.forEach(_project => {
+        delete(projects[_project][task]);
+        if (projects[_project] !== projects.all && projects[_project] !== projects.today && projects[_project] !== projects.favourites) {
+            Object.keys(projects[_project]).length < 1? delete(projects[_project]): null;
+        };
     });
+
+    delete(taskList[task]);
     return projects;
 };
 
+function sortProjects (task) {
+    if (!taskList.hasOwnProperty(task)) null
+    else {
+        taskList[task]._projects.forEach(_project => {
+            if (!projects.hasOwnProperty(_project)) {
+                projects[_project] = {};
+            };
+            projects[_project][task] = taskList[task];
+        });
+    };
+};
+
 export {
-    projects,
     taskMaker,
     taskDeleter,
+    projects
 }

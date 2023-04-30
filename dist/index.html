@@ -13,20 +13,17 @@
                 <ul class="ul-default" id="nav-main-list">
                     <span id="home-nav">
                         <li class="nav-main-item">
-                            <button class="button-default nav-main-btn" id="sidebar-toggle">
-                                <i class="fa-solid fa-bars"></i>
+                            <button class="button-default nav-main-btn fa-solid fa-bars" id="sidebar-toggle">
                             </button>
                         </li>
                         <li class="nav-main-item">
-                            <button class="button-default nav-main-btn" id="home">
-                                <i class="fa-solid fa-house"></i>
+                            <button class="button-default nav-main-btn fa-solid fa-house" id="home">
                             </button>
                         </li>
                     </span>
                     <span id="add-other">
                         <li class="nav-main-item">
-                            <button class="button-default nav-main-btn" id="add-btn">
-                                <i class="fa-solid fa-plus"></i>
+                            <button class="button-default nav-main-btn fa-solid fa-plus" id="add-btn">
                             </button>
                         </li>
                     </span>
@@ -53,7 +50,7 @@
 
             <div id="todo-main">
                 <div id="task-project-header">
-                    <h1 id="header"></h1>
+                    <h1 id="header" data-value="All"></h1>
                 </div>
                 <div id="task-list-container">
                     <ul id="todo-list" class="ul-default">
@@ -70,30 +67,31 @@
                         </li>
                     </ul>
                 </div>
-                <div id="form-container" data-status="inactive">
+
+                <div id="form-container" data-active="false">
                     <div id="form-header"></div>
                     <form action="" id="todo-form" class="form">
                         <input class="input-default todo-input" type="text" id="title-input" name="title" placeholder="Task Title">
                         <input class="input-default todo-input" type="text" id="description-input" name="description" placeholder="Description">                
                         <div id="todo-other-details">
                             <button type="button" id="project-selection" class="button-default project-selection-dropdown-btn">
-                                <h5 class="project-header">All</h5>
-                                <i class="fa-solid fa-caret-down"></i>
+                                <h5 class="project-dropdown-header nonclickable">All</h5>
+                                <i id="project-dropdown-icon" class="nonclickable fa-solid fa-caret-down"></i>
                             </button>
-                            <div id="btn-container">
                         </div>
+                        <div id="btn-container">
                             <button type="button" id="cancel-todo" class="button-default form-btn">Cancel</button>
                             <button id="add-task" class="button-default form-btn">Add Task</button>
                         </div>
                     </form>
                 </div>
             </div>
-            <div id="project-dropdown-menu-container" data-active="true">
-                
+            <div id="project-dropdown-menu-container" data-active="false">
+            
             </div>
         </main>
     </div>
-    <div id="midlay" data-status="inactive"></div>
+    <div id="midlay" data-active="false"></div>
 
     <script src="https://kit.fontawesome.com/25a7d4ef82.js" crossorigin="anonymous"></script>
     <script src="main.js"></script>
