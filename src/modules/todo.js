@@ -29,13 +29,17 @@ function taskDeleter (taskName) {
     
     taskList[task]._projects.forEach(_project => {
         delete(projects[_project][task]);
-        if (projects[_project] !== projects.all && projects[_project] !== projects.today && projects[_project] !== projects.favourites) {
-            Object.keys(projects[_project]).length < 1? delete(projects[_project]): null;
-        };
+        deleteProject(_project);
     });
 
     delete(taskList[task]);
     return projects;
+};
+
+function deleteProject (project) {
+    if (projects[project] !== taskList && projects[project] !== projects.today && projects[project] !== projects.favourites ) {
+        Object.keys(projects[project]).length < 1? delete(projects[project]): null;
+    };
 };
 
 function sortProjects (task) {

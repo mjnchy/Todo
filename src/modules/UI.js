@@ -54,5 +54,7 @@ window.addEventListener('click', (e) => {
             toggle(eventElements.form.projects);
             eventElements.midlay.style.zIndex = eventElements.form.projects.dataset.active === 'true'? 2: 1;
             break;
+        case e.target.classList.contains('project-btn'):
+            console.log('works')
     };
 });
