@@ -34,17 +34,18 @@
         <main id="content">
             <nav id="side-nav" data-active="true">
                 <ul class="ul-default" id="sidebar-list">
-                   <div id="global">
-                        <li class="projects">
+                   <li id="global">
+                        <div class="projects">
                             <button class="button-default project-btn" id="all" data-active="true">All</button>
-                        </li>
-                        <li class="projects">
+                        </div>
+                        <div class="projects">
                             <button class="button-default project-btn" id="today">Today</button>
-                        </li>
-                        <li class="projects">
+                        </div>
+                        <div class="projects">
                             <button class="button-default project-btn" id="favourites">Favourites</button>
-                        </li>
-                   </div>
+                        </div>
+                   </li>
+                   <li id="user-made-projects"></li>
                 </ul>
             </nav>
 
@@ -74,7 +75,7 @@
                         <input class="input-default todo-input" type="text" id="title-input" name="title" placeholder="Task Title">
                         <input class="input-default todo-input" type="text" id="description-input" name="description" placeholder="Description">                
                         <div id="todo-other-details">
-                            <button type="button" id="project-selection" class="button-default project-selection-dropdown-btn">
+                            <button type="button" id="project-selection" class="button-default project-selection-dropdown-btn" data-active="false">
                                 <h5 class="project-dropdown-header nonclickable">All</h5>
                                 <i id="project-dropdown-icon" class="nonclickable fa-solid fa-caret-down"></i>
                             </button>

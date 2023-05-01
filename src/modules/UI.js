@@ -1,5 +1,6 @@
 import "../app.css";
-import { DOM, fetch_From_Form, makeProjects, makeTask, removeTask, setHeader } from "./DOMStuff.js";
+import { DOM, appendTask, displayProjects, fetch_From_Form, makeProjects, removeTask, setHeader } from "./DOMStuff.js";
+import { makeTask } from "./todo.js";
 
 const eventElements = {
     navMain: {
@@ -10,11 +11,11 @@ const eventElements = {
     },
     sideNav: {
         navbar: document.querySelector('#side-nav'),
-        lis: document.querySelectorAll('.projects'),
-        btns: document.querySelectorAll('.project-btn'),
+        btns: [...document.querySelectorAll('.project-btn')],
     },
     form: {
         container: document.querySelector('#form-container'),
+        form: document.querySelector('#todo-form'),
         addBtn: document.querySelector('#add-btn'),
         cancelBtn: document.querySelector('#cancel-todo'),
         projectSelector: document.querySelector('#project-selection'),
@@ -29,12 +30,8 @@ function toggle (element, element2) {
     else element2.dataset.active = element.dataset.active;
 };
 
-window.onload = function () {
-    setHeader();
-};
-
-window.addEventListener('click', (e) => {
-    switch (e.target) {
+function handlerOne (e) {
+    switch (e) {
         case eventElements.navMain.sidebarToggler:
             toggle(eventElements.sideNav.navbar);
             break;
@@ -42,19 +39,49 @@ window.addEventListener('click', (e) => {
             toggle(eventElements.form.container, eventElements.midlay);
             break;
         case eventElements.midlay:
-            eventElements.form.projects.dataset.active === 'true'?
-            toggle(eventElements.form.projects):
-            toggle(eventElements.midlay, eventElements.form.container);
-            eventElements.midlay.style.zIndex = eventElements.form.projects.dataset.active === 'false'? 1: 2;
+            if (eventElements.form.projects.dataset.active === 'true') {
+                toggle(eventElements.form.projects);
+                toggle(eventElements.form.projectSelector);
+            }
+            else toggle(eventElements.midlay, eventElements.form.container);
+            eventElements.form.projects.dataset.active === 'false'?
+            eventElements.midlay.style.zIndex = 1: null;
             break;
         case eventElements.form.cancelBtn:
             toggle(eventElements.form.container, eventElements.midlay)
             break;
         case eventElements.form.projectSelector:
             toggle(eventElements.form.projects);
-            eventElements.midlay.style.zIndex = eventElements.form.projects.dataset.active === 'true'? 2: 1;
+            if (eventElements.form.projects.dataset.active === 'true') {
+                eventElements.midlay.style.zIndex = 2;
+                toggle(eventElements.form.projectSelector);
+                makeProjects();
+            };
             break;
-        case e.target.classList.contains('project-btn'):
-            console.log('works')
     };
+
+    if (e.classList.contains('project-btn')) {
+        eventElements.sideNav.btns.forEach(btn => btn.dataset.active = 'false');
+        e.dataset.active = 'true';
+        setHeader();
+        displayProjects();
+    }
+
+    else if (e.classList.contains('remover')) {
+        removeTask(e.parentElement.parentElement.children[1].children[0].textContent)
+    }
+};
+
+window.onload = function () {
+    setHeader();
+};
+
+window.addEventListener('click', e => handlerOne(e.target));
+
+eventElements.form.form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const input = fetch_From_Form();
+    appendTask(makeTask(input.title, input.des));
+    eventElements.form.form.reset();
+    toggle(eventElements.form.container, eventElements.midlay);
 });

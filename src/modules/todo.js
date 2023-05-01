@@ -5,7 +5,7 @@ const projects = {
 };
 const taskList = projects.all;
 
-function taskMaker (title, description, due, _projects = []) {
+function makeTask (title, description, due, _projects = []) {
     const parsed = title.replaceAll(' ', '');
     let error;
 
@@ -55,7 +55,7 @@ function sortProjects (task) {
 };
 
 export {
-    taskMaker,
+    makeTask,
     taskDeleter,
     projects
 }

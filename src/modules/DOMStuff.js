@@ -1,4 +1,4 @@
-import { taskMaker, taskDeleter, projects } from "./todo.js";
+import { taskDeleter, projects } from "./todo.js";
 import { createElem, } from "./elements.js";
 
 function selector () {
@@ -35,26 +35,26 @@ function createTaskElements(taskName) {
     };
 };
 
-function makeTask (title, des, due, projects) {
-    const task = taskMaker(title, des, due, projects);
-    if (typeof task !== 'object') alert(task);
-    else {
-        const elements = createTaskElements(title);
+function appendTask (task) {
+    if (typeof task === 'object') {
+        const taskName = task.title.replaceAll(' ', '');
+        const taskObj = (projects.all[taskName]);
+        const elements = createTaskElements(taskName);
     
-        elements.header.textContent = task.title;
-        elements.description.textContent = task.description;
-
+        elements.header.textContent = taskObj.title;
+        elements.description.textContent = taskObj.description;
+    
         elements.contentSpan.append(elements.header, elements.description);
         elements.optionsBtn.forEach(btn => {
             elements.optionsSpan.append(btn);
         });
-
+    
         elements.div.append(elements.completeSpan, elements.contentSpan, elements.optionsSpan);
         elements.li.append(elements.div);
-
+        
         DOM.taskList.append(elements.li);
-        return task;
-    };
+    }
+    else alert(task);
 };
 
 function removeTask (task) {
@@ -66,9 +66,8 @@ function fetch_From_Form () {
     return {
         title: DOM.form.children.title.value,
         des: DOM.form.children.description.value,
-        date: DOM.otherDetails.date.value,
-        projects: DOM.otherDetails.projects.value,
-        priority: DOM.otherDetails.priority.value,
+        // date: DOM.otherDetails.date.value,
+        // projects: DOM.otherDetails.projects.value,
     };
 };
 
@@ -99,9 +98,17 @@ function makeProjects () {
     });
 
     elements.div.append(elements.ul);
-    DOM.projectDiv.append(elements.div);
+    DOM.projectDiv.replaceChildren(elements.div);
+};
+
+function displayProjects () {
+    DOM.taskList.replaceChildren()
+    const project = document.querySelector('.project-btn[data-active="true"]');
+    Object.keys(projects[project.id]).forEach(item => {
+        appendTask(projects[project.id][item]);
+    });
 };
 
 export {
-    DOM, setHeader, makeTask, removeTask, fetch_From_Form, makeProjects
+    DOM, setHeader, removeTask, fetch_From_Form, makeProjects, appendTask, displayProjects
 };
