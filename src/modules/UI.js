@@ -2,28 +2,6 @@ import "../app.css";
 import { DOM, appendTask, displayProjects, fetch_From_Form, makeProjects, removeTask, setHeader } from "./DOMStuff.js";
 import { makeTask } from "./todo.js";
 
-const eventElements = {
-    navMain: {
-        sidebarToggler: document.querySelector('#sidebar-toggle'),
-        home: document.querySelector('#home'),
-        addBtn: document.querySelector('#add-btn'),
-        
-    },
-    sideNav: {
-        navbar: document.querySelector('#side-nav'),
-        btns: [...document.querySelectorAll('.project-btn')],
-    },
-    form: {
-        container: document.querySelector('#form-container'),
-        form: document.querySelector('#todo-form'),
-        addBtn: document.querySelector('#add-btn'),
-        cancelBtn: document.querySelector('#cancel-todo'),
-        projectSelector: document.querySelector('#project-selection'),
-        projects: document.querySelector('#project-dropdown-menu-container')
-    },
-    midlay: document.querySelector('#midlay'),
-};
-
 function toggle (element, element2) {
     element.dataset.active = element.dataset.active === 'false'? 'true': 'false';
     if (element2 === undefined) null
@@ -32,36 +10,36 @@ function toggle (element, element2) {
 
 function handlerOne (e) {
     switch (e) {
-        case eventElements.navMain.sidebarToggler:
-            toggle(eventElements.sideNav.navbar);
+        case DOM.navMain.sidebarToggler:
+            toggle(DOM.sideNav.navbar);
             break;
-        case eventElements.navMain.addBtn:
-            toggle(eventElements.form.container, eventElements.midlay);
+        case DOM.navMain.addBtn:
+            toggle(DOM.form.container, DOM.midlay);
             break;
-        case eventElements.midlay:
-            if (eventElements.form.projects.dataset.active === 'true') {
-                toggle(eventElements.form.projects);
-                toggle(eventElements.form.projectSelector);
+        case DOM.midlay:
+            if (DOM.form.projects.dataset.active === 'true') {
+                toggle(DOM.form.projects);
+                toggle(DOM.form.projectSelector);
             }
-            else toggle(eventElements.midlay, eventElements.form.container);
-            eventElements.form.projects.dataset.active === 'false'?
-            eventElements.midlay.style.zIndex = 1: null;
+            else toggle(DOM.midlay, DOM.form.container);
+            DOM.form.projects.dataset.active === 'false'?
+            DOM.midlay.style.zIndex = 1: null;
             break;
-        case eventElements.form.cancelBtn:
-            toggle(eventElements.form.container, eventElements.midlay)
+        case DOM.form.cancelBtn:
+            toggle(DOM.form.container, DOM.midlay)
             break;
-        case eventElements.form.projectSelector:
-            toggle(eventElements.form.projects);
-            if (eventElements.form.projects.dataset.active === 'true') {
-                eventElements.midlay.style.zIndex = 2;
-                toggle(eventElements.form.projectSelector);
+        case DOM.form.projectSelector:
+            toggle(DOM.form.projects);
+            if (DOM.form.projects.dataset.active === 'true') {
+                DOM.midlay.style.zIndex = 2;
+                toggle(DOM.form.projectSelector);
                 makeProjects();
             };
             break;
     };
 
     if (e.classList.contains('project-btn')) {
-        eventElements.sideNav.btns.forEach(btn => btn.dataset.active = 'false');
+        DOM.sideNav.btns.forEach(btn => btn.dataset.active = 'false');
         e.dataset.active = 'true';
         setHeader();
         displayProjects();
@@ -78,10 +56,16 @@ window.onload = function () {
 
 window.addEventListener('click', e => handlerOne(e.target));
 
-eventElements.form.form.addEventListener('submit', (e) => {
+DOM.form.form.addEventListener('submit', (e) => {
     e.preventDefault();
     const input = fetch_From_Form();
-    appendTask(makeTask(input.title, input.des));
-    eventElements.form.form.reset();
-    toggle(eventElements.form.container, eventElements.midlay);
+    const task = makeTask(input.title, input.des);
+    if (typeof task === 'string') {
+        alert(task);
+    }
+    else {
+        appendTask(task);
+        toggle(DOM.form.container, DOM.midlay);
+    };
+    DOM.form.form.reset();
 });

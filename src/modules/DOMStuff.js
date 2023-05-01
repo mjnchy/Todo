@@ -1,22 +1,37 @@
 import { taskDeleter, projects } from "./todo.js";
 import { createElem, } from "./elements.js";
 
-function selector () {
-    return {
-        taskList: document.querySelector('#todo-list'),
+const DOM = {
+    navMain: {
+        sidebarToggler: document.querySelector('#sidebar-toggle'),
+        home: document.querySelector('#home'),
+        addBtn: document.querySelector('#add-btn'),
+        
+    },
+    sideNav: {
+        navbar: document.querySelector('#side-nav'),
+        btns: [...document.querySelectorAll('.project-btn')],
+        activePanel: () => document.querySelector('.project-btn[data-active="true"]'),
+    },
+    tasks: {
+        header: document.querySelector('#header'),
+        list: document.querySelector('#todo-list'),
+    },
+    form: {
+        container: document.querySelector('#form-container'),
         form: document.querySelector('#todo-form'),
         otherDetails: document.querySelector('#todo-form').children['todo-other-details'].children,
-        projectDiv: document.querySelector('#project-dropdown-menu-container')
-    };
-};
-
-const DOM = selector();
+        addBtn: document.querySelector('#add-btn'),
+        cancelBtn: document.querySelector('#cancel-todo'),
+        projectSelector: document.querySelector('#project-selection'),
+        projects: document.querySelector('#project-dropdown-menu-container')
+    },
+    midlay: document.querySelector('#midlay'),
+}
 
 
 function setHeader () {
-    const header = document.querySelector('#header');
-    const panel = document.querySelector('.project-btn[data-active="true"]');
-    header.dataset.value = header.textContent = panel.textContent;
+    DOM.tasks.header.dataset.value = DOM.tasks.header.textContent = DOM.sideNav.activePanel().textContent;
 };
 
 function createTaskElements(taskName) {
@@ -52,20 +67,20 @@ function appendTask (task) {
         elements.div.append(elements.completeSpan, elements.contentSpan, elements.optionsSpan);
         elements.li.append(elements.div);
         
-        DOM.taskList.append(elements.li);
+        DOM.tasks.list.append(elements.li);
     }
-    else alert(task);
+    else return task;
 };
 
 function removeTask (task) {
     taskDeleter(task);
-    DOM.taskList.removeChild(document.getElementById(`${task}-li`));
+    DOM.tasks.list.removeChild(document.getElementById(`${task}-li`));
 };
 
 function fetch_From_Form () {
     return {
-        title: DOM.form.children.title.value,
-        des: DOM.form.children.description.value,
+        title: DOM.form.form.children.title.value,
+        des: DOM.form.form.children.description.value,
         // date: DOM.otherDetails.date.value,
         // projects: DOM.otherDetails.projects.value,
     };
@@ -98,11 +113,11 @@ function makeProjects () {
     });
 
     elements.div.append(elements.ul);
-    DOM.projectDiv.replaceChildren(elements.div);
+    DOM.form.projects.replaceChildren(elements.div);
 };
 
 function displayProjects () {
-    DOM.taskList.replaceChildren()
+    DOM.tasks.list.replaceChildren()
     const project = document.querySelector('.project-btn[data-active="true"]');
     Object.keys(projects[project.id]).forEach(item => {
         appendTask(projects[project.id][item]);
