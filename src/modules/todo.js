@@ -46,10 +46,11 @@ function sortProjects (task) {
     if (!taskList.hasOwnProperty(task)) null
     else {
         taskList[task]._projects.forEach(_project => {
-            if (!projects.hasOwnProperty(_project)) {
-                projects[_project] = {};
+            let project = _project.replaceAll(' ', '')
+            if (!projects.hasOwnProperty(project)) {
+                projects[project] = {};
             };
-            projects[_project][task] = taskList[task];
+            projects[project][task] = taskList[task];
         });
     };
 };

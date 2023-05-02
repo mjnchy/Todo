@@ -41,11 +41,11 @@ body {
     background-color: transparent;
     border: none;
     font-size: var(--font-size-btn);
+    border-radius: 8px;
 }
 
 .button-default:hover {
     cursor: pointer;
-    border-radius: 8px;
     background-color: var(--btn-hover-background);
 }
 
@@ -147,6 +147,10 @@ main {
     padding: 0;
 }
 
+#user-made-projects-container {
+    margin-top: 100px;
+}
+
 .projects {
     width: 100%;
     margin: 6px 0;
@@ -216,6 +220,11 @@ main {
 
 .task-options-span {
     margin-left: auto;
+}
+
+.more-options {
+    padding: 5px;
+    margin: auto 2.5px;
 }
 
 
@@ -359,8 +368,21 @@ main {
     background-color: var(--sidebar-background);
 }
 
-#project-container {
-    margin-top: 9px;
+#dropdown-project-input {
+    height: 25px;
+    width: 85%;
+    border-radius: 5px;
+    background-color: var(--hover-color);
+    margin: 10px 0 0 20px;
+    padding-left: 15px;
+}
+
+#dropdown-project-input::placeholder {
+    color: #b4b3b3;
+}
+
+#dropdown-project-ul {
+    margin-top: 14px;
 }
 
 .dropdown-project-btn {
@@ -369,4 +391,5 @@ main {
     width: calc(100% - 20px);
     padding-left: 15px;
     text-align: start;
+    border-radius: 5px;
 }

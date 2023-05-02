@@ -1,4 +1,4 @@
-import { taskDeleter, projects } from "./todo.js";
+import { taskDeleter, projects, makeTask } from "./todo.js";
 import { createElem, } from "./elements.js";
 
 const DOM = {
@@ -10,8 +10,11 @@ const DOM = {
     },
     sideNav: {
         navbar: document.querySelector('#side-nav'),
-        btns: [...document.querySelectorAll('.project-btn')],
+        btns: () => [...document.querySelectorAll('.project-btn')],
         activePanel: () => document.querySelector('.project-btn[data-active="true"]'),
+        extraContainer: document.querySelector('#user-made-projects-container'),
+        userPannels: document.querySelector('#user-made-projects-list'),
+        extraPanels: () => [...document.querySelector('#user-made-projects-list').children],
     },
     tasks: {
         header: document.querySelector('#header'),
@@ -24,10 +27,13 @@ const DOM = {
         addBtn: document.querySelector('#add-btn'),
         cancelBtn: document.querySelector('#cancel-todo'),
         projectSelector: document.querySelector('#project-selection'),
-        projects: document.querySelector('#project-dropdown-menu-container')
+        projects: document.querySelector('#project-dropdown-menu-container'),
+        dropDownProjectForm: document.querySelector('#dropdown-project-form'),
+        dropdownProjectInput: document.querySelector('#dropdown-project-input'),
+        ul: document.querySelector('#dropdown-project-ul')
     },
     midlay: document.querySelector('#midlay'),
-}
+};
 
 
 function setHeader () {
@@ -73,8 +79,10 @@ function appendTask (task) {
 };
 
 function removeTask (task) {
+    const checkProjects = projects.all[task]._projects;
     taskDeleter(task);
     DOM.tasks.list.removeChild(document.getElementById(`${task}-li`));
+    removeEmptyProject(checkProjects);
 };
 
 function fetch_From_Form () {
@@ -82,20 +90,18 @@ function fetch_From_Form () {
         title: DOM.form.form.children.title.value,
         des: DOM.form.form.children.description.value,
         // date: DOM.otherDetails.date.value,
-        // projects: DOM.otherDetails.projects.value,
+        projects: DOM.form.dropdownProjectInput.value
     };
 };
 
 function projectDivElems (num) {
     return {
-        div: createElem('div', 'project-container', ['project-container'], 1),
-        ul: createElem('ul', 'project-ul', ['project-ul', 'ul-default'], 1),
         li: createElem('li', undefined, ['dropdown-project-li'], num),
         btn: createElem('button', undefined, ['dropdown-project-btn', 'button-default'], num)
     };
 };
 
-function makeProjects () {
+function displayDropDownProjects () {
     const projectList = Object.keys(projects);
     const elements = projectDivElems(projectList.length);
     
@@ -109,11 +115,31 @@ function makeProjects () {
     elements.li.forEach(li => {
         const _projectName = projectList[elements.li.indexOf(li)];
         li.id = `dropdown-${_projectName}-li`;
-        elements.ul.append(li);
+        
+        elements.li.indexOf(li) === elements.li.length - 1?
+        DOM.form.ul.replaceChildren(...elements.li): null;
     });
+};
 
-    elements.div.append(elements.ul);
-    DOM.form.projects.replaceChildren(elements.div);
+function createNewSideBarProjectelements (projectName) {
+    return {
+        li: createElem('li', `sidebar-${projectName.toLowerCase().replaceAll(' ', '')}-li`, ['projects']),
+        btn: createElem('button', `${projectName.toLowerCase().replaceAll(' ', ' ')}`, ['button-default', 'project-btn'])
+    };
+};
+
+function addProjects (projectName) {
+    const elements = createNewSideBarProjectelements(projectName.replaceAll(' ', ''));
+    const existingElems = DOM.sideNav.extraPanels();
+
+    if (existingElems.some(elem => elem.id === elements.li.id)) return `Project exists.`
+    else if (projectName === '') return `Please type a project.` 
+    else {
+        elements.btn.textContent = `${projectName}`;
+        elements.li.append(elements.btn);
+        DOM.sideNav.extraContainer.children[0].append(elements.li);
+        elements.btn.dataset.active = 'false';
+    };
 };
 
 function displayProjects () {
@@ -124,6 +150,17 @@ function displayProjects () {
     });
 };
 
+function removeEmptyProject (arr) {
+    arr.forEach(_project => {
+        if (projects.hasOwnProperty(_project)) null
+        else {
+            if (projects[_project] !== projects.all && projects[_project] !== projects.today && projects[_project] !== projects.favourites) {
+                DOM.sideNav.userPannels.removeChild(document.getElementById(`sidebar-${_project}-li`));
+            }   else null;
+        };
+    });
+};
+
 export {
-    DOM, setHeader, removeTask, fetch_From_Form, makeProjects, appendTask, displayProjects
+    DOM, setHeader, removeTask, fetch_From_Form, displayDropDownProjects, appendTask, addProjects, displayProjects
 };

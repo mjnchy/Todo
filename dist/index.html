@@ -33,20 +33,23 @@
 
         <main id="content">
             <nav id="side-nav" data-active="true">
-                <ul class="ul-default" id="sidebar-list">
-                   <li id="global">
-                        <div class="projects">
+                <div id="sidebar-list">
+                   <ul class="ul-default" id="global">
+                        <li class="projects">
                             <button class="button-default project-btn" id="all" data-active="true">All</button>
-                        </div>
-                        <div class="projects">
+                        </li>
+                        <li class="projects">
                             <button class="button-default project-btn" id="today">Today</button>
-                        </div>
-                        <div class="projects">
+                        </li>
+                        <li class="projects">
                             <button class="button-default project-btn" id="favourites">Favourites</button>
-                        </div>
-                   </li>
-                   <li id="user-made-projects"></li>
-                </ul>
+                        </li>
+                   </ul>
+                   <div id="user-made-projects-container">
+                       <ul class="ul-default" id="user-made-projects-list">
+                       </ul>
+                   </div>
+                </div>
             </nav>
 
             <div id="todo-main">
@@ -77,7 +80,11 @@
                 </div>
             </div>
             <div id="project-dropdown-menu-container" data-active="false">
-            
+                <form action="" id="dropdown-project-form">
+                    <input type="text" id="dropdown-project-input" class="input-default" placeholder="Create New Project">
+                </form>
+                <ul class="project-ul ul-default" id="dropdown-project-ul">
+                </ul>
             </div>
         </main>
     </div>

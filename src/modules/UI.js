@@ -1,5 +1,5 @@
 import "../app.css";
-import { DOM, appendTask, displayProjects, fetch_From_Form, makeProjects, removeTask, setHeader } from "./DOMStuff.js";
+import { DOM, addProjects, appendTask, displayDropDownProjects, displayProjects, fetch_From_Form, removeTask, setHeader } from "./DOMStuff.js";
 import { makeTask } from "./todo.js";
 
 function toggle (element, element2) {
@@ -33,20 +33,20 @@ function handlerOne (e) {
             if (DOM.form.projects.dataset.active === 'true') {
                 DOM.midlay.style.zIndex = 2;
                 toggle(DOM.form.projectSelector);
-                makeProjects();
+                displayDropDownProjects();
             };
             break;
     };
 
     if (e.classList.contains('project-btn')) {
-        DOM.sideNav.btns.forEach(btn => btn.dataset.active = 'false');
+        DOM.sideNav.btns().forEach(btn => btn.dataset.active = 'false');
         e.dataset.active = 'true';
         setHeader();
         displayProjects();
     }
 
     else if (e.classList.contains('remover')) {
-        removeTask(e.parentElement.parentElement.children[1].children[0].textContent)
+        removeTask(e.parentElement.parentElement.children[1].children[0].textContent.replaceAll(' ', ''))
     }
 };
 
@@ -60,6 +60,7 @@ DOM.form.form.addEventListener('submit', (e) => {
     e.preventDefault();
     const input = fetch_From_Form();
     const task = makeTask(input.title, input.des);
+    
     if (typeof task === 'string') {
         alert(task);
     }
