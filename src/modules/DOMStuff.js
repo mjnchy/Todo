@@ -74,8 +74,32 @@ function appendTask (task) {
         elements.li.append(elements.div);
         
         DOM.tasks.list.append(elements.li);
+        addProjects(projects.all[taskName]._projects)
     }
     else return task;
+};
+
+function createNewSideBarProjectelements (projectName) {
+    return {
+        li: createElem('li', `sidebar-${projectName.toLowerCase()}-li`, ['projects']),
+        btn: createElem('button', `${projectName.toLowerCase()}`, ['button-default', 'project-btn'])
+    };
+};
+
+function addProjects (arr) {
+    arr.forEach(_project => {
+        let project = _project.replaceAll(' ', '');
+        if (DOM.sideNav.userPannels.querySelector([`#sidebar-${project}-li`]) !== null) null
+        else {
+            if (projects[project] !== projects.all && projects[project] !== projects.today && projects[project] !== projects.favourites) {
+                const elements = createNewSideBarProjectelements(project);
+                elements.btn.textContent = `${_project.replace(/(^\w{1})|(\s+\w{1})/g, letter => letter.toUpperCase())}`;
+                elements.btn.dataset.active = 'false';
+                elements.li.append(elements.btn);
+                DOM.sideNav.userPannels.append(elements.li);
+            }   else null;
+        };
+    });
 };
 
 function removeTask (task) {
@@ -85,13 +109,15 @@ function removeTask (task) {
     removeEmptyProject(checkProjects);
 };
 
-function fetch_From_Form () {
-    return {
-        title: DOM.form.form.children.title.value,
-        des: DOM.form.form.children.description.value,
-        // date: DOM.otherDetails.date.value,
-        projects: DOM.form.dropdownProjectInput.value
-    };
+function removeEmptyProject (arr) {
+    arr.forEach(_project => {
+        if (projects.hasOwnProperty(_project)) null
+        else {
+            if (projects[_project] !== projects.all && projects[_project] !== projects.today && projects[_project] !== projects.favourites) {
+                DOM.sideNav.userPannels.removeChild(document.getElementById(`sidebar-${_project}-li`));
+            }   else null;
+        };
+    });
 };
 
 function projectDivElems (num) {
@@ -121,27 +147,6 @@ function displayDropDownProjects () {
     });
 };
 
-function createNewSideBarProjectelements (projectName) {
-    return {
-        li: createElem('li', `sidebar-${projectName.toLowerCase().replaceAll(' ', '')}-li`, ['projects']),
-        btn: createElem('button', `${projectName.toLowerCase().replaceAll(' ', ' ')}`, ['button-default', 'project-btn'])
-    };
-};
-
-function addProjects (projectName) {
-    const elements = createNewSideBarProjectelements(projectName.replaceAll(' ', ''));
-    const existingElems = DOM.sideNav.extraPanels();
-
-    if (existingElems.some(elem => elem.id === elements.li.id)) return `Project exists.`
-    else if (projectName === '') return `Please type a project.` 
-    else {
-        elements.btn.textContent = `${projectName}`;
-        elements.li.append(elements.btn);
-        DOM.sideNav.extraContainer.children[0].append(elements.li);
-        elements.btn.dataset.active = 'false';
-    };
-};
-
 function displayProjects () {
     DOM.tasks.list.replaceChildren()
     const project = document.querySelector('.project-btn[data-active="true"]');
@@ -150,15 +155,13 @@ function displayProjects () {
     });
 };
 
-function removeEmptyProject (arr) {
-    arr.forEach(_project => {
-        if (projects.hasOwnProperty(_project)) null
-        else {
-            if (projects[_project] !== projects.all && projects[_project] !== projects.today && projects[_project] !== projects.favourites) {
-                DOM.sideNav.userPannels.removeChild(document.getElementById(`sidebar-${_project}-li`));
-            }   else null;
-        };
-    });
+function fetch_From_Form () {
+    return {
+        title: DOM.form.form.children.title.value,
+        des: DOM.form.form.children.description.value,
+        // date: DOM.otherDetails.date.value,
+        projects: DOM.form.dropdownProjectInput.value
+    };
 };
 
 export {
