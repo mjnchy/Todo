@@ -11,12 +11,12 @@ function makeTask (title, description, due, _projects = []) {
 
     if (parsed !== '' && !taskList.hasOwnProperty(parsed)) {
         taskList[parsed] = {
-            title, description, due, _projects
+            title, description, due, _projects: [...new Set(_projects)]
         };
 
-        taskList[parsed]._projects.unshift('all');
+        !_projects.includes('all')? _projects.unshift('all'): null;
         sortProjects(parsed);
-
+        
         return taskList[parsed];
     }
 

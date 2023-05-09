@@ -1,6 +1,7 @@
 import { taskDeleter, projects, makeTask } from "./todo.js";
 import { createElem, } from "./elements.js";
 
+let projectsArray = ['all'];
 const DOM = {
     navMain: {
         sidebarToggler: document.querySelector('#sidebar-toggle'),
@@ -27,10 +28,16 @@ const DOM = {
         addBtn: document.querySelector('#add-btn'),
         cancelBtn: document.querySelector('#cancel-todo'),
         projectSelector: document.querySelector('#project-selection'),
+        projectsDisplay: document.querySelector('#selected-projects-list'),
+        projectRemover: () => document.querySelectorAll('.project-remover')
+    },
+    dropDownForm: {
         projects: document.querySelector('#project-dropdown-menu-container'),
         dropDownProjectForm: document.querySelector('#dropdown-project-form'),
         dropdownProjectInput: document.querySelector('#dropdown-project-input'),
-        ul: document.querySelector('#dropdown-project-ul')
+        ul: document.querySelector('#dropdown-project-ul'),
+        selected: () => document.querySelectorAll('.dropdown-project-btn[data-selected="true"]'),
+        submitBtn: document.querySelector('#project-selection-submit-btn')
     },
     midlay: document.querySelector('#midlay'),
 };
@@ -123,7 +130,7 @@ function removeEmptyProject (arr) {
 function projectDivElems (num) {
     return {
         li: createElem('li', undefined, ['dropdown-project-li'], num),
-        btn: createElem('button', undefined, ['dropdown-project-btn', 'button-default'], num)
+        btn: createElem('button', undefined, ['dropdown-project-btn', 'button-default'], num),
     };
 };
 
@@ -133,21 +140,38 @@ function displayDropDownProjects () {
     
     elements.btn.forEach(btn => {
         const _projectName = projectList[elements.btn.indexOf(btn)];
+        btn.name = `${_projectName}`;
         btn.id = `dropdown-${_projectName}-btn`;
         btn.textContent = `${_projectName.charAt(0).toUpperCase()}` + `${_projectName.slice(1)}`;
-        elements.li[elements.btn.indexOf(btn)].append(btn)
+        btn.dataset.selected = projectsArray.includes(btn.name)? 'true': 'false';
+        btn.append(
+            createElem('i', `dropdown-${_projectName}-check`, ['fa-solid', 'fa-check', 'nonclickable'])
+        );
+        elements.li[elements.btn.indexOf(btn)].append(btn);
+        elements.li[elements.btn.indexOf(btn)].id = `dropdown-${_projectName}-li`;
     });
 
-    elements.li.forEach(li => {
-        const _projectName = projectList[elements.li.indexOf(li)];
-        li.id = `dropdown-${_projectName}-li`;
-        
-        elements.li.indexOf(li) === elements.li.length - 1?
-        DOM.form.ul.replaceChildren(...elements.li): null;
-    });
+    DOM.dropDownForm.ul.replaceChildren(...elements.li);
 };
 
-function displayProjects () {
+function createNewProject (projectName) {
+    const elements = projectDivElems(1);
+        
+    if (!projects.all.hasOwnProperty(projectName)) {
+        elements.btn.name = projectName;
+        elements.btn.textContent = projectName;
+        elements.btn.id = `dropdown-${projectName}-btn`;
+        elements.btn.dataset.selected = 'true';
+        elements.btn.append(
+            createElem('i', `dropdown-${projectName}-check`, ['fa-solid', 'fa-check', 'nonclickable'])
+        );
+        elements.li.append(elements.btn);
+        elements.li.id = `dropdown-${projectName}-li`;
+        DOM.dropDownForm.ul.append(elements.li);
+    }   else document.getElementById(`dropdown-${projectName}-btn`).dataset.selected = 'true';
+};
+
+function displayTasks () {
     DOM.tasks.list.replaceChildren()
     const project = document.querySelector('.project-btn[data-active="true"]');
     Object.keys(projects[project.id]).forEach(item => {
@@ -155,15 +179,84 @@ function displayProjects () {
     });
 };
 
+function showInitialSelectedProjects () {
+    const elements = createProjectDisplayElems(projectsArray.length);
+
+    projectsArray.forEach(item => {
+        
+    });
+
+};
+
+function getSelectedProjects () {
+    projectsArray = ['all'];
+    const selected = DOM.dropDownForm.selected();
+    selected.forEach(item => item.name !== 'all'? projectsArray.push(item.name): null);
+
+    return projectsArray;
+};
+
+function createProjectDisplayElems (num) {
+    return {
+        li: createElem('li', undefined, ['selected-project-li'], num),
+        h3: createElem('h3', undefined, ['selected-project-name'], num),
+        btn: createElem('button', undefined, ['project-remover', 'button-default', 'fa-solid', 'fa-xmark'], num)
+    };
+};
+
+function displaySelectedProjects () {
+    const projectsArray = getSelectedProjects();
+    const elements = createProjectDisplayElems(projectsArray.length);
+
+    if (elements.h3.length > 1) {
+        elements.h3.forEach(header => {
+            let li = elements.li[elements.h3.indexOf(header)];
+            let btn = elements.btn[elements.h3.indexOf(header)];
+            let projectName = projectsArray[elements.h3.indexOf(header)];
+    
+            li.id = `${projectName}-selected-li`;
+            header.id = `${projectName}-selected-header`;
+            header.textContent = projectName;
+            btn.id = `${projectName}-selected-btn`;
+            btn.type = 'button';
+    
+            li.append(header);
+            li.append(btn);
+        });
+    
+        DOM.form.projectsDisplay.replaceChildren(...elements.li);
+    }   else {
+            elements.h3.id = `${projectsArray[0]}-selected-header`;
+            elements.h3.textContent = projectsArray[0];
+
+            elements.li.id = `${projectsArray[0]}-selected-li`;
+            elements.btn.id = `${projectsArray[0]}-selected-btn`;
+            elements.btn.type = 'button';
+           
+            elements.li.append(elements.h3);
+            elements.li.append(elements.btn);
+
+            DOM.form.projectsDisplay.replaceChildren(elements.li);
+    };
+};
+
+function removeSelectedProject (id) {
+    const name = id.substring(0, id.indexOf('-'));
+    if (name !== 'all') {
+        document.getElementById(`dropdown-${name}-btn`).dataset.selected = 'false';
+        displaySelectedProjects();
+    }   else null;
+};
+
 function fetch_From_Form () {
     return {
         title: DOM.form.form.children.title.value,
         des: DOM.form.form.children.description.value,
         // date: DOM.otherDetails.date.value,
-        projects: DOM.form.dropdownProjectInput.value
+        projects: projectsArray
     };
 };
 
 export {
-    DOM, setHeader, removeTask, fetch_From_Form, displayDropDownProjects, appendTask, addProjects, displayProjects
+    DOM, createNewProject, setHeader, removeTask, fetch_From_Form, displayDropDownProjects, displaySelectedProjects, appendTask, displayTasks, showInitialSelectedProjects, removeSelectedProject
 };

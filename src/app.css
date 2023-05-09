@@ -331,7 +331,8 @@ main {
     cursor: not-allowed;
 }
 
-#add-task:hover {background-color: var(--accent-hover);
+#add-task:hover {
+    background-color: var(--accent-hover);
 }
 
 #cancel-todo {
@@ -368,12 +369,16 @@ main {
     background-color: var(--sidebar-background);
 }
 
+#dropdown-project-form {
+    width: 85%;
+    margin: 10px auto;
+}
+
 #dropdown-project-input {
     height: 25px;
-    width: 85%;
+    width: calc(100% - 15px);
     border-radius: 5px;
     background-color: var(--hover-color);
-    margin: 10px 0 0 20px;
     padding-left: 15px;
 }
 
@@ -382,14 +387,85 @@ main {
 }
 
 #dropdown-project-ul {
-    margin-top: 14px;
+    margin-top: 15px;
+}
+
+.dropdown-project-li {
+    width: 85%;
+    margin: 5px auto;
 }
 
 .dropdown-project-btn {
     font-size: var(--text-size) * 0.65;
-    margin: 1px 0 5px 10px;
-    width: calc(100% - 20px);
-    padding-left: 15px;
+    width: 100%;
+    padding: 3px 0 3px 15px;
     text-align: start;
     border-radius: 5px;
+}
+
+.dropdown-project-btn {
+    position: relative;
+}
+
+.dropdown-project-btn .fa-check {
+    position: absolute;
+    right: 10px;
+    font-size: calc(var(--font-size-btn) * 0.7);
+    top: calc(50% - 7px);
+}
+
+.dropdown-project-btn[data-selected="true"] {
+    background-color: var(--btn-hover-background);
+}
+
+.dropdown-project-btn[data-selected="false"] .fa-check {
+    display: none;
+}
+
+#project-selection-submit-btn {
+    font-size: calc(var(--font-size-btn) * 0.7);
+    height: 25px;
+    width: 80px;
+    position: absolute;
+    right: 10px;
+    bottom: 10px;
+}
+
+#project-selection-submit-btn:hover {
+    background-color: var(--accent-hover);
+}
+
+#selected-projects-container {
+    margin-top: 15px;
+    grid-column: span 3;
+}
+
+.selected-project-ul {
+    width: 100%;
+}
+
+.selected-project-li:first-child {
+    margin: 0 10px 0 5px;
+}
+
+.selected-project-li {
+    display: inline-block;
+    margin: 0 10px;
+    padding: 0 0 0 10px;
+    background-color: var(--btn-hover-background);
+    border-radius: 8px;
+}
+
+.selected-project-name {
+    display: inline;
+    font-size: calc(var(--font-size-btn) * 0.75);
+    padding: 3px 0;
+}
+
+.project-remover {
+    height: 100%;
+    border-radius: 0 8px 8px 0;
+    bottom: 0;
+    margin-left: 3px;
+    font-size: calc(var(--font-size-btn) * 0.75);
 }

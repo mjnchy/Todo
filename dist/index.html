@@ -68,9 +68,12 @@
                         <input class="input-default todo-input" type="text" id="description-input" name="description" placeholder="Description">                
                         <div id="todo-other-details">
                             <button type="button" id="project-selection" class="button-default project-selection-dropdown-btn" data-active="false">
-                                <h5 class="project-dropdown-header nonclickable">All</h5>
+                                <h5 class="project-dropdown-header nonclickable">Projects</h5>
                                 <i id="project-dropdown-icon" class="nonclickable fa-solid fa-caret-down"></i>
                             </button>
+                        </div>
+                        <div id="selected-projects-container">
+                            <ul class="ul-default" id="selected-projects-list"></ul>
                         </div>
                         <div id="btn-container">
                             <button type="button" id="cancel-todo" class="button-default form-btn">Cancel</button>
@@ -85,6 +88,7 @@
                 </form>
                 <ul class="project-ul ul-default" id="dropdown-project-ul">
                 </ul>
+                <button id="project-selection-submit-btn" class="button-default form-btn">Done</button>
             </div>
         </main>
     </div>
