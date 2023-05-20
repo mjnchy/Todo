@@ -75,6 +75,11 @@
                         <div id="selected-projects-container">
                             <ul class="ul-default" id="selected-projects-list"></ul>
                         </div>
+                        <div id="datepicker-container">
+                            <button type="button" class="button-default form-btn" id="datepicker-btn" data-active="false">Due By 
+                                <i class="fa-solid fa-caret-down nonclickable"></i>
+                            </button>
+                        </div>
                         <div id="btn-container">
                             <button type="button" id="cancel-todo" class="button-default form-btn">Cancel</button>
                             <button id="add-task" class="button-default form-btn">Add Task</button>
@@ -90,8 +95,9 @@
                 </ul>
                 <button id="project-selection-submit-btn" class="button-default form-btn">Done</button>
             </div>
+            <div id="datepicker" data-active="false"></div>
         </main>
-    </div>
+    </div>    
     <div id="midlay" data-active="false"></div>
 
     <script src="https://kit.fontawesome.com/25a7d4ef82.js" crossorigin="anonymous"></script>

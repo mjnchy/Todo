@@ -1,7 +1,11 @@
 import { taskDeleter, projects, makeTask } from "./todo.js";
 import { createElem, } from "./elements.js";
+import { Datepicker} from "vanillajs-datepicker";
+import "vanillajs-datepicker/css/datepicker.css";
 
+let today = new Date();
 let projectsArray = ['all'];
+
 const DOM = {
     navMain: {
         sidebarToggler: document.querySelector('#sidebar-toggle'),
@@ -29,7 +33,18 @@ const DOM = {
         cancelBtn: document.querySelector('#cancel-todo'),
         projectSelector: document.querySelector('#project-selection'),
         projectsDisplay: document.querySelector('#selected-projects-list'),
-        projectRemover: () => document.querySelectorAll('.project-remover')
+        projectRemover: () => document.querySelectorAll('.project-remover'),
+        datepickerContainer: document.querySelector('#datepicker-container'),
+        datepickerBtn: document.querySelector('#datepicker-btn'),
+        datepicker: document.querySelector('#datepicker'),
+        calender: new Datepicker(document.getElementById('datepicker'), {
+            datesDisabled: function (date, viewId, rangeEnd) {
+                let isDateDisabled;
+                if (date.getDate() <= today.getDate() - 1 && date.getMonth() <= today.getMonth() && date.getFullYear() <= today.getFullYear())
+                    return isDateDisabled = true
+                else return isDateDisabled = false;
+            },
+        })
     },
     dropDownForm: {
         projects: document.querySelector('#project-dropdown-menu-container'),
@@ -81,7 +96,7 @@ function appendTask (task) {
         elements.li.append(elements.div);
         
         DOM.tasks.list.append(elements.li);
-        addProjects(projects.all[taskName]._projects)
+        addProjects(projects.all[taskName]._projects);
     }
     else return task;
 };
@@ -179,15 +194,6 @@ function displayTasks () {
     });
 };
 
-function showInitialSelectedProjects () {
-    const elements = createProjectDisplayElems(projectsArray.length);
-
-    projectsArray.forEach(item => {
-        
-    });
-
-};
-
 function getSelectedProjects () {
     projectsArray = ['all'];
     const selected = DOM.dropDownForm.selected();
@@ -248,15 +254,27 @@ function removeSelectedProject (id) {
     }   else null;
 };
 
+function getDate () {
+    let date = DOM.form.calender.getDate();
+    if (date !== undefined) return date
+    else return today;
+};
+
 function fetch_From_Form () {
     return {
         title: DOM.form.form.children.title.value,
         des: DOM.form.form.children.description.value,
-        // date: DOM.otherDetails.date.value,
+        date: function () {
+            const date = getDate();
+            if (date.getDate() === today.getDate() && date.getMonth() === today.getMonth() && date.getFullYear() === today.getFullYear()) {
+                projectsArray.push('today');
+            };
+            return date;
+        },
         projects: projectsArray
     };
 };
 
 export {
-    DOM, createNewProject, setHeader, removeTask, fetch_From_Form, displayDropDownProjects, displaySelectedProjects, appendTask, displayTasks, showInitialSelectedProjects, removeSelectedProject
+    DOM, createNewProject, setHeader, removeTask, fetch_From_Form, displayDropDownProjects, displaySelectedProjects, appendTask, displayTasks, removeSelectedProject
 };

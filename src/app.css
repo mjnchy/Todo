@@ -310,6 +310,75 @@ main {
     align-items: start;
 }
 
+#datepicker-container {
+    position: absolute;
+    inset: auto auto 15px 10px;
+}
+
+#datepicker-btn {
+    height: 26px;
+    width: fit-content;
+    background-color: transparent;
+    margin-left: 10px;
+}
+
+#datepicker-btn[data-active="true"] {
+    background-color: var(--btn-hover-background);
+}
+
+#datepicker-btn:hover {
+    background-color: var(--btn-hover-background);
+}
+
+#datepicker-btn .fa-caret-down {
+    margin: auto 5px;
+}
+
+#datepicker[data-active="false"] {
+    display: none;
+}
+
+#datepicker[data-active="true"] {
+    width: fit-content;
+    height: fit-content;
+    background-color: black;
+    position: absolute;
+    inset: calc(30% + 35px) calc(50% - 250px);
+    z-index: 3;
+}
+
+.datepicker-picker {
+    background-color: var(--background);
+    box-shadow: 0 2px 6px 2px var(--shadow);
+}
+
+.datepicker-controls .button {
+    color: var(--nav-font);
+    background-color: var(--shadow);
+}
+
+.datepicker-header .datepicker-controls .button:hover {
+    color: var(--nav-font);
+    background-color: var(--accent-hover);
+}
+
+.datepicker-controls .button:focus:not(:active) {
+    color: var(--nav-font);
+    box-shadow: none;
+}
+
+.datepicker-cell.focused:not(.selected) {
+    background-color: var(--accent);
+}
+
+.datepicker-cell:not(.disabled):hover {
+    background-color: var(--accent-hover);
+}
+
+.datepicker-cell.selected {
+    background-color: var(--accent);
+}
+
 #btn-container {
     width: fit-content;
     position: absolute;
@@ -468,4 +537,10 @@ main {
     bottom: 0;
     margin-left: 3px;
     font-size: calc(var(--font-size-btn) * 0.75);
+}
+
+@media (height < 850px) {
+    #datepicker[data-active="true"] {
+        inset: calc(40% + 10px) calc(50% - 250px);
+    }
 }
