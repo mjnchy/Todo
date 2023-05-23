@@ -6,6 +6,7 @@ import "vanillajs-datepicker/css/datepicker.css";
 let today = new Date();
 let projectsArray = ['all'];
 
+let allDates = [];
 const DOM = {
     navMain: {
         sidebarToggler: document.querySelector('#sidebar-toggle'),
@@ -83,9 +84,17 @@ function appendTask (task) {
         const taskName = task.title.replaceAll(' ', '');
         const taskObj = (projects.all[taskName]);
         const elements = createTaskElements(taskName);
+        
+        const date = taskObj.due.toLocaleDateString();
+        const dateID = date.replaceAll('/', '');
+        const currentPanel = DOM.sideNav.activePanel();
+
+        let dateDiv = document.getElementById(dateID);
+
     
         elements.header.textContent = taskObj.title;
         elements.description.textContent = taskObj.description;
+        allDates.includes(date)? null: allDates.push(date);
     
         elements.contentSpan.append(elements.header, elements.description);
         elements.optionsBtn.forEach(btn => {
@@ -94,8 +103,20 @@ function appendTask (task) {
     
         elements.div.append(elements.completeSpan, elements.contentSpan, elements.optionsSpan);
         elements.li.append(elements.div);
-        
-        DOM.tasks.list.append(elements.li);
+
+        if (currentPanel.id !== 'today') {
+            if(dateDiv !== null) {
+                dateDiv.append(elements.li);
+            }
+    
+            else {
+                dateDiv = createElem('div', `d${dateID}`, ['date-div']);
+                dateDiv.id = dateID;
+                dateDiv.textContent = date;
+                dateDiv.append(elements.li);
+                DOM.tasks.list.append(dateDiv);
+            };
+        }   else DOM.tasks.list.append(elements.li);
         addProjects(projects.all[taskName]._projects);
     }
     else return task;
@@ -113,7 +134,7 @@ function addProjects (arr) {
         let project = _project.replaceAll(' ', '');
         if (DOM.sideNav.userPannels.querySelector([`#sidebar-${project}-li`]) !== null) null
         else {
-            if (projects[project] !== projects.all && projects[project] !== projects.today && projects[project] !== projects.favourites) {
+            if (projects[project] !== projects.all && projects[project] !== projects.today && projects[project] !== projects.priority) {
                 const elements = createNewSideBarProjectelements(project);
                 elements.btn.textContent = `${_project.replace(/(^\w{1})|(\s+\w{1})/g, letter => letter.toUpperCase())}`;
                 elements.btn.dataset.active = 'false';
@@ -271,10 +292,16 @@ function fetch_From_Form () {
             };
             return date;
         },
-        projects: projectsArray
+        projects: function () {
+            let currentPanel = DOM.sideNav.activePanel();
+            if (currentPanel.id !== 'all' && currentPanel.id !== 'today') {
+                projectsArray.push(currentPanel.id);
+            };
+            return projectsArray;
+        }
     };
 };
 
 export {
-    DOM, createNewProject, setHeader, removeTask, fetch_From_Form, displayDropDownProjects, displaySelectedProjects, appendTask, displayTasks, removeSelectedProject
+    DOM, today, createNewProject, setHeader, removeTask, fetch_From_Form, displayDropDownProjects, displaySelectedProjects, appendTask, displayTasks, removeSelectedProject
 };

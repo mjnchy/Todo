@@ -1,7 +1,7 @@
 const projects = {
     all: {},
     today: {},
-    favourites: {}
+    priority: {}
 };
 const taskList = projects.all;
 

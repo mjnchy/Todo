@@ -1,4 +1,4 @@
-import { DOM, appendTask, createNewProject, displayDropDownProjects, displayTasks, fetch_From_Form, removeTask, setHeader, displaySelectedProjects, removeSelectedProject, } from "./DOMStuff.js";
+import { DOM, appendTask, createNewProject, displayDropDownProjects, displayTasks, fetch_From_Form, removeTask, setHeader, displaySelectedProjects, removeSelectedProject, today, } from "./DOMStuff.js";
 import { makeTask } from "./todo.js";
 import "../app.css";
 
@@ -91,7 +91,7 @@ window.addEventListener('click', e => handlerOne(e.target));
 DOM.form.form.addEventListener('submit', (e) => {
     e.preventDefault();
     const input = fetch_From_Form();
-    const task = makeTask(input.title, input.des, input.date(), input.projects);
+    const task = makeTask(input.title, input.des, input.date(), input.projects());
     
     if (typeof task === 'string') {
         alert(task);
